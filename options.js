@@ -16,6 +16,7 @@ var OPTION_DEFAULTS = {
     fontSize: 8,
     margin: 4,
   },
+  skiplist: '',
 };
 
 

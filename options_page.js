@@ -20,6 +20,7 @@ function $(id) {
  */
 function saveOptions() {
   let ignoreOverrides = $('ignoreOverrides').checked;
+  let skiplist = $('skiplist').value;
   let idealFontSize = parseInt($('idealFontSize').value, 10);
 
   // Validate font size.
@@ -33,6 +34,7 @@ function saveOptions() {
   doGetZoom(undefined).then(function(currentZoom) {
     return doSetOptions({
       ignoreOverrides: ignoreOverrides,
+      skiplist: skiplist,
       idealFontSize: idealFontSize,
       metricWeights: {
         fontSize: fontSizeWeight,
@@ -52,13 +54,15 @@ function restoreOptions() {
       'ignoreOverrides',
       'idealFontSize',
       'metricWeights',
+      'skiplist',
     ]),
     doGetZoom(undefined)
   ]).then(function(values) {
     let items = values[0];
-    let currentZoom = values[1];
+    let currentjoom = values[1];
 
     $('ignoreOverrides').checked = items.ignoreOverrides;
+    $('skiplist').value = items.skiplist;
     $('idealFontSize').value = items.idealFontSize;
 
     $('fontSizeWeight').value = items.metricWeights.fontSize;
@@ -93,6 +97,7 @@ chrome.tabs.onZoomChange.addListener(setSampleTextSize);
 $('idealFontSize').addEventListener('change', setSampleTextSize);
 
 $('ignoreOverrides').addEventListener('change', saveOptions);
+$('skiplist').addEventListener('change', saveOptions);
 $('idealFontSize').addEventListener('change', saveOptions);
 $('fontSizeWeight').addEventListener('change', saveOptions);
 $('marginWeight').addEventListener('change', saveOptions);

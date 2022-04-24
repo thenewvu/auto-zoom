@@ -95,18 +95,22 @@ function determineAllowedToAutoZoom(tab) {
     return Promise.resolve(false);
   }
 
+  let hostname = urlToHostname(tab.url);
+
   return Promise.all([
     doGetZoom(tab.id),
     doGetZoomSettings(tab.id),
     overriddenOrigins.has(urlToHostname(tab.url)),
-    doGetOptions('ignoreOverrides')
+    doGetOptions(['ignoreOverrides', 'skiplist']),
   ]).then(function(values) {
     let currentZoom = values[0];
     let zoomSettings = values[1];
     let overridden = values[2];
     let options = values[3];
+    let skiplist = (options.skiplist || '').split(',').map(v => v.trim().toLowerCase());
 
-    return zoomSettings.mode === 'automatic' &&
+    return !skiplist.includes(hostname) &&
+      zoomSettings.mode === 'automatic' &&
         zoomSettings.scope === 'per-origin' &&
         (options.ignoreOverrides ||
          (!overridden &&
