@@ -20,7 +20,7 @@ function $(id) {
  */
 function saveOptions() {
   let ignoreOverrides = $('ignoreOverrides').checked;
-  let skiplist = $('skiplist').value;
+  let skiplist = $('skiplist').value.split(',').map(v => v.trim().toLowerCase());
   let idealFontSize = parseInt($('idealFontSize').value, 10);
 
   // Validate font size.
@@ -62,7 +62,7 @@ function restoreOptions() {
     let currentjoom = values[1];
 
     $('ignoreOverrides').checked = items.ignoreOverrides;
-    $('skiplist').value = items.skiplist;
+    $('skiplist').value = (items.skiplist || []).join(',');
     $('idealFontSize').value = items.idealFontSize;
 
     $('fontSizeWeight').value = items.metricWeights.fontSize;

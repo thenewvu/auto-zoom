@@ -107,7 +107,7 @@ function determineAllowedToAutoZoom(tab) {
     let zoomSettings = values[1];
     let overridden = values[2];
     let options = values[3];
-    let skiplist = (options.skiplist || '').split(',').map(v => v.trim().toLowerCase());
+    let skiplist = options.skiplist || [];
 
     return !skiplist.includes(hostname) &&
       zoomSettings.mode === 'automatic' &&
