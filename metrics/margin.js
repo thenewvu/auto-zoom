@@ -317,14 +317,18 @@ function getWidthDeclarations() {
         }
       } else if (rules[j].type === CSSRule.MEDIA_RULE &&
                  window.matchMedia(rules[j].media.mediaText).matches) {
-        processRuleList(rules[j].cssRules);
+        if (rules[j].hasOwnProperty("cssRules")) {
+          processRuleList(rules[j].cssRules);
+        }
       }
     }
   }
 
   let sheets = document.styleSheets;
   for (let i = 0, sheetsLen = sheets.length; i < sheetsLen; ++i) {
-    processRuleList(sheets[i].cssRules);
+    if (sheets[i].hasOwnProperty("cssRules")) {
+      processRuleList(sheets[i].cssRules);
+    }
   }
 
   return declarations;
